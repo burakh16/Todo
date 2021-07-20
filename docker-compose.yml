@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: todo-db
+    env_file: envs/db.env
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: todo-backend
+    env_file: envs/db.env
+    tty: true
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
