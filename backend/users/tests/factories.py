@@ -11,7 +11,8 @@ faker = Factory.create()
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-    username = faker.name()
+        django_get_or_create = ('username',)
+    username = 'test'
     password = factory.PostGenerationMethodCall('set_password', '1234')
 
     is_active = True

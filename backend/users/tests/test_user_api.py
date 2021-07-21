@@ -8,9 +8,10 @@ from .factories import UserFactory
 
 OBTAIN_TOKEN_URL = reverse('users:token_obtain')
 REFRESH_TOKEN_URL = reverse('users:token_refresh')
+CREATE_USER_URL = reverse('users:create')
 
 
-class TokenApiTest(TestCase):
+class UserApiTest(TestCase):
 
     def setUp(self):
         self.client = APIClient()
@@ -57,3 +58,22 @@ class TokenApiTest(TestCase):
 
         self.assertNotIn('access', response.data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_user_create_success(self):
+        payload = {
+            'username': 'testuser',
+            'password': 'superstrong'
+        }
+
+        response = self.client.post(CREATE_USER_URL, payload)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_user_create_empty_password(self):
+        payload = {
+            'username': 'testuser'
+        }
+
+        response = self.client.post(CREATE_USER_URL, payload)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
