@@ -10,6 +10,7 @@ User = get_user_model()
 
 
 class CreateUserView(APIView):
+
     def post(self, request):
         user = UserSerializer(data=request.data)
         user.is_valid(raise_exception=True)

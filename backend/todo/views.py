@@ -16,16 +16,16 @@ class CreateTodoView(APIView):
         todo.is_valid(raise_exception=True)
         todo.save(created_by=request.user)
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(data=TodoSerializer(todo.instance).data, status=status.HTTP_201_CREATED)
 
 
 class CompleteTodoView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, id):
-        Todo.objects.complete(id, request.user)
+        todo = Todo.objects.complete(id, request.user)
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(data=TodoSerializer(todo).data, status=status.HTTP_200_OK)
 
 
 class ListTodoView(ListAPIView):

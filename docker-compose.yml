@@ -28,7 +28,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    container_name: myproject-frontend
+    container_name: todo-frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
     #command: npm run serve

@@ -15,6 +15,8 @@ class TodoManager(models.Manager):
             todo.status = True
             todo.completed_at = now()
             todo.save()
+
+            return todo
         except self.model.DoesNotExist:
             raise ValidationError(_('Not Found!'))
 
